@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Respledor Notícia - Menu Lateral Esquerdo</title>
+  <style>
+    /* Estilos gerais */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff; /* Fundo branco */
+      color: #333; /* Texto escuro */
+    }
+
+    /* Barra de navegação superior */
+    .navbar {
+      background-color: #111; /* Fundo preto */
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-start; /* Alinha logo à esquerda */
+      align-items: center;
+    }
+
+    .navbar .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .navbar .menu-icon {
+      font-size: 30px;
+      cursor: pointer;
+      margin-left: 10px; /* Alinha o ícone ao lado esquerdo */
+    }
+
+    /* Barra Lateral (Menu) */
+    .sidenav {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      transition: 0.3s; /* Transição suave */
+      padding-top: 60px;
+      z-index: 1;
+    }
+
+    .sidenav a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidenav a:hover {
+      color: #f1f1f1;
+    }
+
+    .sidenav .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+
+    /* Estilo do conteúdo */
+    .content {
+      padding: 20px;
+    }
+
+    .content h1 {
+      font-size: 32px;
+      color: #333;
+    }
+
+    .content p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    /* Quando o menu estiver aberto */
+    .sidenav.open {
+      width: 250px; /* O menu lateral terá 250px de largura */
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Barra de Navegação -->
+  <div class="navbar">
+    <span class="menu-icon" onclick="openNav()">☰</span>
+    <div class="logo">Respledor Notícia</div>
+  </div>
+
+  <!-- Barra Lateral (Menu) -->
+  <div class="sidenav" id="menu">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="#">Início</a>
+    <a href="#">Sobre</a>
+    <a href="#">Notícias</a>
+    <a href="#">Serviços</a>
+    <a href="#">Contato</a>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <div class="content">
+    <h1>Bem-vindo ao Respledor Notícia!</h1>
+    <p>Este é um template com um menu lateral no lado esquerdo e um ícone de 3 linhas para abrir o menu.</p>
+    <p>Você pode adicionar o conteúdo que desejar aqui.</p>
+  </div>
+
+  <script>
+    // Função para abrir o menu
+    function openNav() {
+      document.getElementById("menu").classList.add("open");
+    }
+
+    // Função para fechar o menu
+    function closeNav() {
+      document.getElementById("menu").classList.remove("open");
+    }
+  </script>
+
+</body>
+</html>
