@@ -1,300 +1,117 @@
-
-    /* Barra Lateral (Menu) */
-    .sidenav {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: #111;
-      overflow-x: hidden;
-      transition: 0.3s; /* Transição suave */
-      padding-top: 60px;
-      z-index: 1;
-    }
-
-    .sidenav a {
-      padding: 8px 8px 8px 32px;
-      text-decoration: none;
-      font-size: 25px;
-      color: #818181;
-      display: block;
-      transition: 0.3s;
-    }
-
-    .sidenav a:hover {
-      color: #f1f1f1;
-    }
-
-    .sidenav .closebtn {
-      position: absolute;
-      top: 0;
-      right: 25px;
-      font-size: 36px;
-      margin-left: 50px;
-    }
-
-    /* Estilo do conteúdo */
-    .content {
-      padding: 20px;
-    }
-
-    .content h1 {
-      font-size: 32px;
-      color: #333;
-    }
-
-    .content p {
-      font-size: 18px;
-      color: #555;
-    }
-
-    /* Quando o menu estiver aberto */
-    .sidenav.open {
-      width: 250px; /* O menu lateral terá 250px de largura */
-    }
-
-  </style>
-</head>
-<body>
-
-  <!-- Barra de Navegação -->
-  <div class="navbar">
-    <span class="menu-icon" onclick="openNav()">☰</span>
-    <div class="logo">Respledor Notícia</div>
-  </div>
-
-  <!-- Barra Lateral (Menu) -->
-  <div class="sidenav" id="menu">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="#">Início</a>
-    <a href="#">Sobre</a>
-    <a href="#">Notícias</a>
-    <a href="#">Serviços</a>
-    <a href="#">Contato</a>
-  </div>
-
-  <!-- Conteúdo Principal -->
-  <div class="content">
-    <h1>Bem-vindo ao Respledor Notícia!</h1>
-    <p>De proprietário de parte do Havaí a dono de uma das maiores competições de tênis: quem é Larry Ellison, o novo homem mais rico do mundo</p>
-    <p>Você pode adicionar o conteúdo que desejar aqui.</p>
-  </div>
-
-  <script>
-    // Função para abrir o menu
-    function openNav() {
-      document.getElementById("menu").classList.add("open");
-    }
-
-    // Função para fechar o menu
-    function closeNav() {
-      document.getElementById("menu").classList.remove("open");
-    }
-  </script>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Respledor Notícia - Menu Lateral Esquerdo</title>
-  <style>
-    /* Estilos gerais */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #fff; /* Fundo branco */
-      color: #333; /* Texto escuro */
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu Giratório Funcional</title>
+<style>
+  body {
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#eee;
+  }
 
-    /* Barra de navegação superior */
-    .navbar {
-      background-color: #111; /* Fundo preto */
-      color: #fff;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: flex-start; /* Alinha logo à esquerda */
-      align-items: center;
-    }
+  header {
+    background:#000;
+    color:#fff;
+    padding:15px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:1002;
+  }
 
-    .navbar .logo {
-      font-size: 28px; /* Ajustado */
-      font-weight: bold;
-      letter-spacing: 1px; /* Aumento do espaçamento entre letras */
-    }
+  header .logo { font-size:22px; font-weight:bold; text-transform:uppercase; }
+  .open-btn { background:#f39c12; color:#fff; border:none; padding:10px 16px; font-size:16px; cursor:pointer; border-radius:6px; }
 
-    .navbar .menu-icon {
-      font-size: 35px; /* Ajustado */
-      cursor: pointer;
-      margin-left: 15px; /* Alinha o ícone ao lado esquerdo */
-    }
+  .overlay {
+    position:fixed;
+    top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.6);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.5s ease;
+    z-index:999;
+  }
+  .overlay.active { opacity:1; pointer-events:auto; }
 
-    /* Barra Lateral (Menu) */
-    .sidenav {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: #111;
-      overflow-x: hidden;
-      transition: 0.3s; /* Transição suave */
-      padding-top: 60px;
-      z-index: 1;
-    }
+  .menu {
+    position:fixed;
+    top:0; right:0; width:100%; height:100%;
+    background:#111; color:white;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    transform: rotateY(90deg);
+    opacity:0;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+    transform-origin:right center;
+    z-index:1000;
+  }
 
-    .sidenav a {
-      padding: 15px 15px 15px 40px; /* Ajuste no padding */
-      text-decoration: none;
-      font-size: 22px; /* Ajustado */
-      color: #818181;
-      display: block;
-      transition: 0.3s;
-      font-weight: bold; /* Negrito */
-    }
+  .menu.show {
+    transform:rotateY(0deg);
+    opacity:1;
+  }
 
-    .sidenav a:hover {
-      color: #f1f1f1;
-    }
+  .menu a {
+    color:white;
+    text-decoration:none;
+    font-size:28px;
+    margin:20px 0;
+    transition:color 0.3s;
+  }
+  .menu a:hover { color:#f39c12; }
 
-    .sidenav .closebtn {
-      position: absolute;
-      top: 0;
-      right: 25px;
-      font-size: 36px;
-      margin-left: 50px;
-    }
+  .close-btn {
+    position:absolute;
+    top:20px;
+    right:30px;
+    font-size:40px;
+    cursor:pointer;
+  }
 
-    /* Estilo do conteúdo */
-    .content {
-      padding: 25px; /* Aumentado o padding */
-      font-family: 'Georgia', serif; /* Font da área de conteúdo */
-    }
-
-    .content h1 {
-      font-size: 36px; /* Tamanho ajustado */
-      color: #333;
-      font-weight: bold; /* Negrito */
-    }
-
-    .content h2 {
-      font-size: 24px; /* Ajustado */
-      color: #555;
-      margin-top: 10px;
-    }
-
-    .content p {
-      font-size: 18px;
-      color: #555;
-      line-height: 1.8;
-    }
-
-    .content strong {
-      font-weight: bold;
-    }
-
-    /* Quando o menu estiver aberto */
-    .sidenav.open {
-      width: 250px; /* O menu lateral terá 250px de largura */
-    }
-
-    #main.open {
-      margin-left: 250px;
-    }
-
-    /* Ajustes para links internos e outros detalhes */
-    a {
-      text-decoration: none;
-      color: #0066cc;
-    }
-
-    a:hover {
-      color: #004a99;
-    }
-
-  </style>
+  main { margin-top:80px; padding:20px; }
+</style>
 </head>
 <body>
 
-  <!-- Barra de Navegação -->
-  <div class="navbar">
-    <span class="menu-icon" onclick="openNav()">☰</span>
-    <div class="logo">Respledor Notícia</div>
-  </div>
+<header>
+  <div class="logo">Meu Site</div>
+  <button class="open-btn" onclick="openMenu()">☰</button>
+</header>
 
-  <!-- Barra Lateral (Menu) -->
-  <div class="sidenav" id="menu">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="#">Início</a>
-    <a href="#">Sobre</a>
-    <a href="#">Notícias</a>
-    <a href="#">Serviços</a>
-    <a href="#">Contato</a>
-  </div>
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
-  <!-- Conteúdo Principal -->
-  <div id="main" class="content">
-    <h1>Bem-vindo ao Respledor Notícia!</h1>
-    <h2>De proprietário de parte do Havaí a dono de uma das maiores competições de tênis: quem é Larry Ellison, o novo homem mais rico do mundo</h2>
-    <p><strong>Por Otávio Preto</strong></p>
-    <p><strong>11 set 2025, 15:50 - atualizado em 11 set 2025, 15:50</strong></p>
+<div class="menu" id="menu">
+  <span class="close-btn" onclick="closeMenu()">&times;</span>
+  <a href="#">Início</a>
+  <a href="#">Sobre</a>
+  <a href="#">Portfólio</a>
+  <a href="#">Contato</a>
+</div>
 
-    <h3>Youtube</h3>
-    <p>Siga o MT no Youtube</p>
+<main>
+  <h1>Menu Giratório Funcional</h1>
+  <p>Menu abre e fecha corretamente com rotação da direita.</p>
+</main>
 
-    <p><strong>Larry Ellison - Elon Musk - Oracle - Homem mais rico do mundo</strong></p>
-    <p>De infância humilde em Chicago a dono da Oracle, de parte do Havaí e até de um torneio de tênis: Larry Ellison ultrapassou Elon Musk e agora é o homem mais rico do mundo, com fortuna de US$ 393 bilhões.</p>
-    
-    <p>O mundo dos bilionários ganhou um novo protagonista com Larry Ellison, cofundador da Oracle, que ontem ultrapassou Elon Musk e assumiu o posto de homem mais rico do planeta, com uma fortuna avaliada em US$ 393 bilhões (R$ 2 trilhões). A trajetória de Ellison, porém, é tudo menos convencional.</p>
-    
-    <p>Nascido em Nova York em 1944 e criado pelos tios em um bairro da zona sul de Chicago devido a problemas de saúde da mãe que o impedia de cuidar dele, Ellison só descobriu aos 12 anos que era adotado — uma revelação que influenciou profundamente sua visão de independência e determinação.</p>
-    
-    <p>Sem seguir o caminho tradicional dos gênios da tecnologia, ele abandonou a universidade duas vezes — primeiro após dois anos em Illinois e depois após um semestre em Chicago — optando por aprendizado prático em empresas de software. Em 1977, com apenas US$ 2 mil, fundou a Software Development Laboratories, que mais tarde se tornou a Oracle. O nome Oracle veio do primeiro projeto de banco de dados da empresa, desenvolvido para a Agência Central de Inteligência dos EUA (CIA).</p>
-    
-    <p>Décadas depois, a Oracle consolidou-se como um dos pilares da revolução digital, rivalizando com gigantes do setor como Microsoft e IBM, enquanto Ellison se firmava não só como um empresário visionário, mas também como uma figura singular no Vale do Silício, dividindo seu tempo entre reuniões de tecnologia, regatas de vela e torneios de tênis.</p>
-    
-    <p>Em 2009, Ellison adquiriu o Masters 1000 de Indian Wells, considerado o quinto Grand Slam do tênis. No ano seguinte, sua equipe de vela, BMW Oracle Racing, conquistou a prestigiada America’s Cup, um dos troféus mais cobiçados do esporte náutico.</p>
-    
-    <p>O estilo de vida do magnata traduz sua fortuna: além de veleiros, jatos e mansões, ele é dono da maior parte da ilha de Lanai, no Havaí, adquirida em 2012 por cerca de US$ 300 milhões. Lá, desenvolveu hotéis de luxo, campos de golfe e uma infraestrutura que une negócios, lazer e exclusividade.</p>
-    
-    <p>Mais recentemente, Ellison também esteve no conselho da Tesla até 2022 e participou da aquisição do Twitter (atual X), onde investiu US$ 1 bilhão, reforçando ainda mais sua influência no cenário tecnológico global.</p>
+<script>
+const menu = document.getElementById("menu");
+const overlay = document.getElementById("overlay");
 
-    <h3>Leia também</h3>
-    <ul>
-      <li><a href="#">Apple: AirPods Pro 3 e Apple Watch 11 chegam com tradução e monitoramento de saúde</a></li>
-      <li><a href="#">Ibovespa recua na semana, aos 142,2 mil pontos, após renovar recordes</a></li>
-      <li><a href="#">Vuelta a España 2025: saiba onde assistir às 19ª e última etapa da 80ª edição</a></li>
-    </ul>
+function openMenu() {
+  menu.classList.add("show");
+  overlay.classList.add("active");
+}
 
-    <h3>Compartilhar</h3>
-    <p>Twitter | WhatsApp | Linkedin | Facebook | Telegram</p>
-
-    <p><strong>Por Otávio Preto</strong></p>
-    <p>Formado em Jornalismo pela PUC-SP, atua como repórter no Money Times e no Seu Dinheiro, onde também já trabalhou como analista de mídias sociais, com experiência em produção de conteúdo para diferentes plataformas digitais.</p>
-
-    <p><strong>Leia mais sobre:</strong></p>
-    <p>Bilionários | Elon Musk | Oracle | Tesla</p>
-  </div>
-
-  <div class="footer">
-    <p>© 2025 Respledor Notícia. Todos os direitos reservados.</p>
-  </div>
-
-  <script>
-    // Função para abrir o menu
-    function openNav() {
-      document.getElementById("menu").classList.add("open");
-    }
-
-    // Função para fechar o menu
-    function closeNav() {
-      document.getElementById("menu").classList.remove("open");
-    }
-  </script>
+function closeMenu() {
+  // remove a classe show para iniciar a rotação de volta
+  menu.classList.remove("show");
+  overlay.classList.remove("active");
+}
+</script>
 
 </body>
 </html>
 
-</body>
-</html>
