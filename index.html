@@ -1,77 +1,38 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Menu Giratório Funcional</title>
+<title>Menu Sidebar Giratório</title>
 <style>
-  body {
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#eee;
-  }
+body { margin:0; font-family:Arial,sans-serif; background:#eee; }
+header { background:#000; color:#fff; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:fixed; top:0; left:0; right:0; z-index:1002; }
+header .logo { font-size:22px; font-weight:bold; text-transform:uppercase; }
+.open-btn { background:#f39c12; color:#fff; border:none; padding:10px 16px; font-size:16px; cursor:pointer; border-radius:6px; }
 
-  header {
-    background:#000;
-    color:#fff;
-    padding:15px 20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    position:fixed;
-    top:0; left:0; right:0;
-    z-index:1002;
-  }
+.overlay {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.6); opacity:0; pointer-events:none;
+  transition:opacity 0.5s ease; z-index:999;
+}
+.overlay.active { opacity:1; pointer-events:auto; }
 
-  header .logo { font-size:22px; font-weight:bold; text-transform:uppercase; }
-  .open-btn { background:#f39c12; color:#fff; border:none; padding:10px 16px; font-size:16px; cursor:pointer; border-radius:6px; }
+.menu-container { perspective:1200px; }
 
-  .overlay {
-    position:fixed;
-    top:0; left:0; width:100%; height:100%;
-    background:rgba(0,0,0,0.6);
-    opacity:0;
-    pointer-events:none;
-    transition:opacity 0.5s ease;
-    z-index:999;
-  }
-  .overlay.active { opacity:1; pointer-events:auto; }
+.menu {
+  position:fixed; top:0; right:0; width:300px; height:100%;
+  background:#111; color:white; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  transform: rotateY(90deg); opacity:0; pointer-events:none;
+  transition: transform 0.6s ease, opacity 0.6s ease; transform-origin:right center; z-index:1000;
+}
+.menu.show { transform:rotateY(0deg); opacity:1; pointer-events:auto; }
 
-  .menu {
-    position:fixed;
-    top:0; right:0; width:100%; height:100%;
-    background:#111; color:white;
-    display:flex; flex-direction:column; justify-content:center; align-items:center;
-    transform: rotateY(90deg);
-    opacity:0;
-    transition: transform 0.6s ease, opacity 0.6s ease;
-    transform-origin:right center;
-    z-index:1000;
-  }
+.menu a { color:white; text-decoration:none; font-size:22px; margin:20px 0; transition:color 0.3s; }
+.menu a:hover { color:#f39c12; }
+.close-btn { position:absolute; top:20px; right:20px; font-size:32px; cursor:pointer; }
 
-  .menu.show {
-    transform:rotateY(0deg);
-    opacity:1;
-  }
-
-  .menu a {
-    color:white;
-    text-decoration:none;
-    font-size:28px;
-    margin:20px 0;
-    transition:color 0.3s;
-  }
-  .menu a:hover { color:#f39c12; }
-
-  .close-btn {
-    position:absolute;
-    top:20px;
-    right:30px;
-    font-size:40px;
-    cursor:pointer;
-  }
-
-  main { margin-top:80px; padding:20px; }
+main { margin-top:80px; padding:20px; }
 </style>
 </head>
 <body>
@@ -83,17 +44,19 @@
 
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
-<div class="menu" id="menu">
-  <span class="close-btn" onclick="closeMenu()">&times;</span>
-  <a href="#">Início</a>
-  <a href="#">Sobre</a>
-  <a href="#">Portfólio</a>
-  <a href="#">Contato</a>
+<div class="menu-container">
+  <div class="menu" id="menu">
+    <span class="close-btn" onclick="closeMenu()">&times;</span>
+    <a href="#">Início</a>
+    <a href="#">Sobre</a>
+    <a href="#">Portfólio</a>
+    <a href="#">Contato</a>
+  </div>
 </div>
 
 <main>
-  <h1>Menu Giratório Funcional</h1>
-  <p>Menu abre e fecha corretamente com rotação da direita.</p>
+  <h1>Menu Sidebar Giratório</h1>
+  <p>Agora o menu é uma sidebar de 300px com rotação da direita.</p>
 </main>
 
 <script>
@@ -106,10 +69,17 @@ function openMenu() {
 }
 
 function closeMenu() {
-  // remove a classe show para iniciar a rotação de volta
   menu.classList.remove("show");
   overlay.classList.remove("active");
 }
+
+menu.addEventListener("transitionend", () => {
+  if (!menu.classList.contains("show")) {
+    menu.style.pointerEvents = "none";
+  } else {
+    menu.style.pointerEvents = "auto";
+  }
+});
 </script>
 
 </body>
